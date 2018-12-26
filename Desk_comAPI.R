@@ -81,7 +81,7 @@ df<-as.data.frame( cbind(r3$`_embedded`$entries$id,
          r3$`_embedded`$entries$changed_at,
          r3$`_embedded`$entries$status,
          r3$`_embedded`$entries$subject,
-         r3$`_embedded`$entries$custom_fields$ds_request_type,
+         paste(r3$`_embedded`$entries$custom_fields$ds_request_type,r3$`_embedded`$entries$custom_fields$ds_request_type2),
          r3$`_embedded`$entries$custom_fields$station,
          r3$`_embedded`$entries$custom_fields$ds_product,
          as.numeric( r3$`_embedded`$entries$`_links`$replies$count),
@@ -96,8 +96,9 @@ fullURL <- paste("https://",accountURL,baseURL,qnext, sep="")
 
 
 colnames(df_total)<-c("id","created","resolved_at","Changed_at","status","subject","Type","station","product","Replies","Agent","Team")
-##Format date fields and calculate times to resolve and FTT
-
+##Remove NA from Combined Type 
+df_total$Type<-gsub("NA ","",df_total$Type)
+df_total$Type<-gsub(" NA","",df_total$Type)
 
 ##Export data to file in current Directory
 ##enhancement setwd to new directory setwd("~/Desk.com API Reports")
